@@ -63,7 +63,6 @@ public class World {
 		Utils.logging( "part 1: creating nodes ...");
 		uploadPersons();
 		Utils.logging( "part 1: finished");
-		Utils.logging( "timing lenovo i5/3: 30 sec to upload 1 Mio weak persons");
 		
 		// relations are created
 		Utils.logging( "part 2: creating relations ...");

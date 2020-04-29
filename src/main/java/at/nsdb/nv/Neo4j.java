@@ -216,7 +216,7 @@ public class Neo4j {
 //					"RETURN p", 3, 6, RelTypes.KNOWS);
 			
 			String cypherQ = String.format( 
-					"MATCH (p1: {id: %d}), (p2: {id: %d}), " +
+					"MATCH (p1:Person {id: %d}), (p2:Person {id: %d}), " +
 					"path = shortestPath( (p1)-[*]-(p2)) " +
 					"WHERE length( path) > 1 " +
 					"RETURN path", 2, 40);

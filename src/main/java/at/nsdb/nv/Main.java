@@ -15,7 +15,12 @@ public class Main {
 		 * create empty neo4j database
 		 */
 		Utils.logging( String.format( "**** %sopening DB ...", Parameter.createNewDB ? "creating & " : ""));
-		Neo4j neo4j = new Neo4j( new File( Parameter.dbPath), Parameter.createNewDB);
+		
+		// construct full directory of the neo4J database
+		String projectDirectory = System.getProperty("user.dir");
+		String fullDBDirectory = projectDirectory.substring( 0, projectDirectory.lastIndexOf( "\\") + 1) + Parameter.dbPath;
+		Utils.logging( String.format( "database directory = %s", fullDBDirectory));
+		Neo4j neo4j = new Neo4j( new File( fullDBDirectory), Parameter.createNewDB);
 		Utils.logging( String.format( "---- %sopening DB finished", Parameter.createNewDB ? "creating & " : ""));
 
 		

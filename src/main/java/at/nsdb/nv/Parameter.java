@@ -2,7 +2,11 @@ package at.nsdb.nv;
 
 public abstract class Parameter {
 	public static final int populationSize = 100;
-	public static final String dbPath = "DBs/personsInTheMiddle";
+	
+	/*--------------------
+	 * rel path to the neo4j database i.e. <projectdirectory>\..\dbPath
+	 */	
+	public static final String dbPath = "DBs\\personsInTheMiddle";
 	public static final boolean createNewDB = true;
 	
 	
