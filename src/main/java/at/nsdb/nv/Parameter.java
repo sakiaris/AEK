@@ -7,7 +7,7 @@ public abstract class Parameter {
 	 * rel path to the neo4j database i.e. <projectdirectory>\..\dbPath
 	 */	
 	public static final String dbPath = "DBs\\personsInTheMiddle";
-	public static final boolean createNewDB = true;
+	public static final boolean createNewDB = false;
 	
 	
 	/*--------------------
