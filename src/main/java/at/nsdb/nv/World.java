@@ -1,5 +1,7 @@
 package at.nsdb.nv;
 
+import java.io.FileWriter;
+import java.io.PrintWriter;
 import java.util.Vector;
 
 public class World {
@@ -10,11 +12,30 @@ public class World {
 	 * many persons are born (created) and saved in neo4j
 	 */
 	private void uploadPersons() {
+		// create Persons
 		Vector<Person> persons = new Vector<Person>();
 		for( int id = 1; id <= Parameter.populationSize; id ++) {
 			persons.add( new Person( id));
 		}
-		neo4j.uploadPersons( persons);
+		
+		// insert into neo4j directly
+		if( Parameter.insertNodesAndRelationsIntoNeo4j) {
+			neo4j.uploadPersons( persons);
+		}
+		
+		// create import file for nodes
+		try {
+			FileWriter fileWriter = new FileWriter( Parameter.getCSVNodesImportName());
+			PrintWriter printWriter = new PrintWriter( fileWriter);
+			printWriter.println( Person.cypherHeaderForImport());
+			persons.forEach( p -> {
+				printWriter.println( p.cypherDataForImport());
+			});
+			printWriter.close();
+		}
+		catch( Exception e) {
+			Utils.logging( "Error while writing import- node file");
+		}
 	}
 
 	/*--------------------
@@ -25,17 +46,36 @@ public class World {
 	 * 2: 36 sec: only 1 commit, check if relationship exists 
 	 */
 	private void createConnections() {
-		Vector<TupleId> connections = new Vector<TupleId>();
+		// create connections
+		Vector<FriendRelShip> connections = new Vector<FriendRelShip>();
 		for( int id1 = 1; id1 <= Parameter.populationSize; id1 ++) {
 			for( int id2 = 1; id2 <= Parameter.populationSize; id2 ++) {
 				if( id1 != id2) {
 					if( Parameter.isFriend( new Person( id1).distance( new Person( id2)))) {
-						connections.add( new TupleId( id1, id2));
+						connections.add( new FriendRelShip( id1, id2));
 					}
 				}
 			}
 		}
-		neo4j.createRelations( connections);
+		
+		// insert into neo4j directly
+		if( Parameter.insertNodesAndRelationsIntoNeo4j) {
+			neo4j.createFriendRelShips( connections);
+		}
+		
+		// create import file for nodes
+		try {
+			FileWriter fileWriter = new FileWriter( Parameter.getCSVRelationsImportName());
+			PrintWriter printWriter = new PrintWriter( fileWriter);
+			printWriter.println( FriendRelShip.cypherHeaderForImport());
+			connections.forEach( c -> {
+				printWriter.println( c.cypherDataForImport());
+			});
+			printWriter.close();
+		}
+		catch( Exception e) {
+			Utils.logging( "Error while writing import- node file");
+		}
 
 	}
 

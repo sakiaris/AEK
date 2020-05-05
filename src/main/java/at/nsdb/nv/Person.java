@@ -1,12 +1,25 @@
 package at.nsdb.nv;
 
-
 public class Person {
 	
+	
+	// Attributes of class Person
 	private int id, longitude, latitude;
 	
 	public String toString() {
 		return String.format( "id=%9d pos=%4d/%4d", id, longitude, latitude);
+	}
+	
+	public static String cypherHeaderForImport() {
+		return "id,longitude,latitude";
+	}
+	public String cypherDataForImport() {
+		return String.format( "%d, %d, %d", id, longitude, latitude);
+	}
+		
+	// label of the node in neo4j
+	public static String getNeo4jLabel() {
+		return "Person";
 	}
 	
 	public double distance( Person p) {
